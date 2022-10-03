@@ -1,17 +1,14 @@
 from slack_sdk.errors import SlackApiError
-# from rec.utils.slackbot import SlackAPI
 from slack_sdk import WebClient
 import logging
 import os
 
 # logging.basicConfig(level=logging.DEBUG)
 
+SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
 
-# SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
 CHANNEL_NAME = "test"
-TEXT = "자동 생성 문구 테스트"
 query = "슬랙 봇 테스트"
-text = "자동 생성 문구 테스트"
 
 
 class SlackAPI:
@@ -19,9 +16,13 @@ class SlackAPI:
     슬랙 API 핸들러
     """
 
-    def __init__(self, token):
-        # 슬랙 클라이언트 인스턴스 생성
-        self.client = WebClient(token)
+    def __init__(self):
+        try:
+            # 슬랙 클라이언트 인스턴스 생성
+            self.client = WebClient(SLACK_TOKEN)
+        except SlackApiError as e:
+            # You will get a SlackApiError if "ok" is False
+            assert e.response["error"]    # str like 'invalid_auth', 'channel_not_found'
 
     def get_channel_id(self, channel_name):
         """
@@ -63,17 +64,11 @@ class SlackAPI:
         )
         return result
 
+    def send_message(self, text):
+        # 채널ID 파싱
+        channel_id = self.get_channel_id(CHANNEL_NAME)
 
-# slack = SlackAPI(SLACK_TOKEN)
-
-# # 채널ID 파싱
-# channel_id = slack.get_channel_id(CHANNEL_NAME)
-# # # 메세지ts 파싱
-# # message_ts = slack.get_message_ts(channel_id, query)
-# # # 댓글 달기
-# # slack.post_thread_message(channel_id, message_ts, text)
-
-# result = slack.client.chat_postMessage(
-#     channel=channel_id,
-#     text=TEXT,
-# )
+        self.client.chat_postMessage(
+            channel=channel_id,
+            text=text,
+        )

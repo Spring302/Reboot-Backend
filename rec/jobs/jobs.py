@@ -2,13 +2,8 @@ from datetime import datetime
 import psycopg2
 from rec.utils.cron import Cron
 
-from rec.utils.slackbot import SlackAPI
-from slack_sdk.errors import SlackApiError
-import os
-
-SLACK_TOKEN = os.environ.get("SLACK_TOKEN")
-CHANNEL_NAME = "test"
-TEXT = "자동 생성 문구 테스트"
+from utils.slackbot import SlackAPI
+from utils.kakaobot import Kakaobot
 
 
 def schedule_api():
@@ -30,21 +25,29 @@ def schedule_api():
 def schedule_api2():
     with psycopg2.connect(database='reboot', user='reboot', password='reboot') as con:
         cur = con.cursor()
-        cur.execute("SELECT * FROM rec_priceinfo")
+        cur.execute("""
+        SELECT b.name, a.price, a.per_price, a.date
+        FROM rec_priceinfo a
+        INNER JOIN rec_apartments b 
+        ON b.id = a.apart_id
+        WHERE a.date = CURRENT_DATE
+        ORDER BY a.apart_id ASC""")
         apartments = cur.fetchall()
-        print(apartments)
+        apart_list = print_apart_list(apartments)
+        kakaobot = Kakaobot()
+        kakaobot.send_message(apart_list)
+        # slack = SlackAPI()
+        # slack.send_message(apart_list)
 
-    # try:
-    #     slack = SlackAPI(SLACK_TOKEN)
 
-    #     # 채널ID 파싱
-    #     channel_id = slack.get_channel_id(CHANNEL_NAME)
+def print_apart_list(apartments):
+    text = ""
 
-    #     slack.client.chat_postMessage(
-    #         channel=channel_id,
-    #         text=TEXT,
-    #     )
+    for apartment in apartments:
+        name = apartment[0]
+        price = apartment[1]
+        per_price = apartment[2]
+        # date = apartment[3]
+        text += f'{name}:{price}만원(평당{per_price}만원)\n'
 
-    # except SlackApiError as e:
-    #     # You will get a SlackApiError if "ok" is False
-    #     assert e.response["error"]    # str like 'invalid_auth', 'channel_not_found'
+    return text

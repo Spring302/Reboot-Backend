@@ -177,6 +177,7 @@ class TodayApartmentsList(generics.ListAPIView):
 > 참고 : https://ffoorreeuunn.tistory.com/466
 
 - 윈도우에서 스케쥴러 사용을 위해 APScheduler를 사용한다.
-- 다만 아직 버그가 있어서 runserver 시 2번 로딩을 하고 스케쥴러도 두번 작동은 한다.
+- 다만 runserver 시 서버가 두 번 실행되는 문제가 있다.
   - 해결방법은 `python manage.py runserver --noreload` 로 시작하면 된다.
+  - 문제원인 : http://blog.quantylab.com/django_onstartup.html
   
