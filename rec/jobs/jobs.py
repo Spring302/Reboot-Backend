@@ -4,12 +4,27 @@ from rec.utils.cron import Cron
 
 from utils.slackbot import SlackAPI
 from utils.kakaobot import Kakaobot
+import os
+from pathlib import Path
+import environ
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(
+    env_file=os.path.join(BASE_DIR, 'env/.env')
+)
+
+database = env('DB_NAME')
+user = env('DB_USER')
+password = env('DB_PASS')
 
 
 def schedule_api():
-    # TODO: insert data to DB
-    print("schedule_api : successful")
-    with psycopg2.connect(database='reboot', user='reboot', password='reboot') as con:
+    with psycopg2.connect(database=database, user=user, password=password) as con:
         cur = con.cursor()
         cur.execute("SELECT * FROM rec_apartments")
         apartments = cur.fetchall()
@@ -18,12 +33,14 @@ def schedule_api():
             cur.execute("""
             INSERT INTO rec_priceinfo (apart_id, date, price, per_price)
             VALUES (%s, %s, %s, %s)
-            """, (info['apart'], info['date'], info['price'], info['per_price']))
+            ON CONFLICT (apart_id, date) DO UPDATE 
+            SET price = %s, per_price = %s
+            """, (info['apart'], info['date'], info['price'], info['per_price'], info['price'], info['per_price']))
             con.commit()
 
 
 def schedule_api2():
-    with psycopg2.connect(database='reboot', user='reboot', password='reboot') as con:
+    with psycopg2.connect(database=database, user=user, password=password) as con:
         cur = con.cursor()
         cur.execute("""
         SELECT b.name, a.price, a.per_price, a.date
@@ -36,8 +53,8 @@ def schedule_api2():
         apart_list = print_apart_list(apartments)
         kakaobot = Kakaobot()
         kakaobot.send_message(apart_list)
-        # slack = SlackAPI()
-        # slack.send_message(apart_list)
+        slack = SlackAPI()
+        slack.send_message(apart_list)
 
 
 def print_apart_list(apartments):

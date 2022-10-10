@@ -181,3 +181,7 @@ class TodayApartmentsList(generics.ListAPIView):
   - 해결방법은 `python manage.py runserver --noreload` 로 시작하면 된다.
   - 문제원인 : http://blog.quantylab.com/django_onstartup.html
   
+## DotENV 폴더 생성
+- Github에 올릴 시 개인정보(비밀번호)가 노출되었다는 알림이 자주 와서 공부하게 되었다.
+- .env 파일을 만들고, pip install django-environ 을 설치하여 개인정보 노출을 방지할 수 있다.
+- 예제 : https://pypi.org/project/django-environ/ 
