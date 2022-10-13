@@ -1,6 +1,7 @@
 from datetime import datetime
 import psycopg2
 from rec.utils.cron import Cron
+from django.db import connection
 
 from utils.slackbot import SlackAPI
 from utils.kakaobot import Kakaobot
@@ -24,37 +25,35 @@ password = env('DB_PASS')
 
 
 def schedule_api():
-    with psycopg2.connect(database=database, user=user, password=password) as con:
-        cur = con.cursor()
-        cur.execute("SELECT * FROM rec_apartments")
-        apartments = cur.fetchall()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM rec_apartments")
+        apartments = cursor.fetchall()
         info_list = Cron.crawling_rec_tuple(apartments)  # list of dict_data
         for info in info_list:
-            cur.execute("""
+            cursor.execute("""
             INSERT INTO rec_priceinfo (apart_id, date, price, per_price)
             VALUES (%s, %s, %s, %s)
             ON CONFLICT (apart_id, date) DO UPDATE 
             SET price = %s, per_price = %s
             """, (info['apart'], info['date'], info['price'], info['per_price'], info['price'], info['per_price']))
-            con.commit()
+            connection.commit()
 
 
 def schedule_api2():
-    with psycopg2.connect(database=database, user=user, password=password) as con:
-        cur = con.cursor()
-        cur.execute("""
+    with connection.cursor() as cursor:
+        cursor.execute("""
         SELECT b.name, a.price, a.per_price, a.date
         FROM rec_priceinfo a
         INNER JOIN rec_apartments b 
         ON b.id = a.apart_id
         WHERE a.date = CURRENT_DATE
         ORDER BY a.apart_id ASC""")
-        apartments = cur.fetchall()
+        apartments = cursor.fetchall()
         apart_list = print_apart_list(apartments)
         kakaobot = Kakaobot()
         kakaobot.send_message(apart_list)
-        slack = SlackAPI()
-        slack.send_message(apart_list)
+        # slack = SlackAPI()
+        # slack.send_message(apart_list)
 
 
 def print_apart_list(apartments):

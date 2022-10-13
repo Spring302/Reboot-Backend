@@ -185,3 +185,11 @@ class TodayApartmentsList(generics.ListAPIView):
 - Github에 올릴 시 개인정보(비밀번호)가 노출되었다는 알림이 자주 와서 공부하게 되었다.
 - .env 파일을 만들고, pip install django-environ 을 설치하여 개인정보 노출을 방지할 수 있다.
 - 예제 : https://pypi.org/project/django-environ/ 
+
+## Django ORM Cookbook
+
+https://django-orm-cookbook-ko.readthedocs.io/en/latest/query.html
+
+## Executing custom sql directly
+
+https://docs.djangoproject.com/en/4.1/topics/db/sql/#executing-custom-sql-directly
