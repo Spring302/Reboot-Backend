@@ -7,6 +7,6 @@ def start():
     scheduler = BackgroundScheduler(timezone='Asia/Seoul')
     scheduler.add_job(schedule_api, 'cron', hour=9, minute=0, second=0)
     scheduler.add_job(schedule_api2, 'cron', hour=9, minute=0, second=0)
-    schedule_api()
-    schedule_api2()
+    # schedule_api()
+    # schedule_api2()
     scheduler.start()
