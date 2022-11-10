@@ -42,9 +42,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    ## auth 
     'rest_framework',
-    'rec',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+    'dj_rest_auth.registration',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'drf_yasg',
     'corsheaders',
+    # app
+    'rec',
 ]
 
 MIDDLEWARE = [
@@ -155,7 +165,27 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS 관련 추가
-CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:8080', 'http://127.0.0.1:8081',
-                         'http://localhost:8080', 'http://localhost:8081']
-CORS_ALLOW_CREDENTIALS = True
+# # CORS 관련 추가
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:8080', 'http://127.0.0.1:8081',
+#                          'http://localhost:8080', 'http://localhost:8081']
+# CORS_ALLOW_CREDENTIALS = True
+
+REST_SESSION_LOGIN = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+REST_USE_JWT = True
+
+JWT_AUTH_COOKIE = 'auth'
+# (Optional) Use Http-Only cookies
+# JWT_AUTH_COOKIE = 'jwt-auth'
+
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'login',
+    'LOGOUT_URL': 'logout',
+}
+
