@@ -21,4 +21,4 @@ class PriceInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PriceInfo
-        fields = ['id', 'apart', 'date', 'price', 'per_price']
+        fields = ['id', 'apart', 'transaction_style', 'date', 'price', 'per_price']

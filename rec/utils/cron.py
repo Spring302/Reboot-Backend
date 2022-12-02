@@ -48,10 +48,10 @@ class Cron():
             time.sleep(3)
 
             # 거래방식
-            transaction_style = browser.find_element(
+            transaction_style_el = browser.find_element(
                 By.CSS_SELECTOR,
                 '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > button > span')
-            transaction_style.click()
+            transaction_style_el.click()
 
             time.sleep(0.5)
 
@@ -136,10 +136,10 @@ class Cron():
             time.sleep(3)
 
             # 거래방식
-            transaction_style = browser.find_element(
+            transaction_style_el = browser.find_element(
                 By.CSS_SELECTOR,
                 '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > button > span')
-            transaction_style.click()
+            transaction_style_el.click()
             time.sleep(0.5)
 
             # 매매
@@ -195,7 +195,7 @@ class Cron():
             response.append(price_info)
         return response
 
-    def crawling_rec_api(apart_list):
+    def crawling_rec_api(apart_list, transaction_style):
         now = str(datetime.now().date())
         response = []
 
@@ -226,25 +226,26 @@ class Cron():
             time.sleep(3)
 
             # 거래방식
-            transaction_style = browser.find_element(
+            transaction_style_el = browser.find_element(
                 By.CSS_SELECTOR,
                 '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > button > span')
-            transaction_style.click()
+            transaction_style_el.click()
             time.sleep(0.5)
-
-            # 매매
-            sale_real_estate = browser.find_element(
-                By.CSS_SELECTOR,
-                '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > div > div > ul > li:nth-child(2)')
-            sale_real_estate.click()
-            time.sleep(0.1)
-
-            # # 전세
-            # sale_real_estate = browser.find_element(
-            #     By.CSS_SELECTOR,
-            #     '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > div > div > ul > li:nth-child(3)')
-            # sale_real_estate.click()
-            # time.sleep(0.1)
+            
+            if transaction_style == "매매":
+                # 매매
+                sale_real_estate = browser.find_element(
+                    By.CSS_SELECTOR,
+                    '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > div > div > ul > li:nth-child(2)')
+                sale_real_estate.click()
+                time.sleep(0.1)
+            else:
+                # 전세
+                sale_real_estate = browser.find_element(
+                    By.CSS_SELECTOR,
+                    '#complexOverviewList > div.list_contents > div.list_fixed > div.list_filter > div > div:nth-child(1) > div > div > ul > li:nth-child(3)')
+                sale_real_estate.click()
+                time.sleep(0.1)
 
             # 거래방식 창 닫기
             sale_real_estate = browser.find_element(
@@ -278,6 +279,7 @@ class Cron():
             price_info['apart'] = apart['id']  # 아파트 id
             price_info['date'] = now  # 날짜
             price_info['name'] = apart['name']  # 아파트명
+            price_info['transaction_style'] = transaction_style
             price_info['price'] = change_currency_language(price)  # 최저가
             price_info['per_price'] = int(per_price)  # 평단가(3.3/m2)
 

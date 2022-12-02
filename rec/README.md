@@ -48,7 +48,7 @@ serializer.data
 
 ## DB 생성
 
-create database rec;
+`create database rec;`
 
 ## postgresql 계정 생성 및 권한 설정
 
@@ -63,8 +63,10 @@ grant all privileges on database reboot to reboot;
 
 ## migrate
 
+```bash
 python manage.py makemigrations
 python manage.py migrate
+```
 
 성공 시 아래와 같이 뜬다.
 
@@ -102,11 +104,11 @@ from rec.serializers import *
 # (중요) queryset, serializer_class 로 변수명을 고정시켜야 한다. 내부적으로 저 변수명을 호출하는 듯 하다
 class ApartmentsList(generics.ListCreateAPIView):
     queryset = Apartments.objects.all()
-    serializer_class  = ApartmentsSerializer
+    serializer_class = ApartmentsSerializer
 
 class ApartmentstDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Apartments.objects.all()
-    serializer_class  = ApartmentsSerializer
+    serializer_class = ApartmentsSerializer
 ```
 
 ## scheduler 만들기

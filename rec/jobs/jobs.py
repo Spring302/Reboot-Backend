@@ -42,7 +42,7 @@ def schedule_api():
 def schedule_api2():
     with connection.cursor() as cursor:
         cursor.execute("""
-        SELECT b.name, a.price, a.per_price, a.date
+        SELECT b.name, a.transaction_style, a.price, a.per_price, a.date
         FROM rec_priceinfo a
         INNER JOIN rec_apartments b 
         ON b.id = a.apart_id
@@ -61,9 +61,10 @@ def print_apart_list(apartments):
 
     for apartment in apartments:
         name = apartment[0]
-        price = apartment[1]
-        per_price = apartment[2]
-        # date = apartment[3]
-        text += f'{name}:{price}만원(평당{per_price}만원)\n'
+        transaction_style = apartment[1]
+        price = apartment[2]
+        per_price = apartment[3]
+        # date = apartment[4]
+        text += f'{name}({transaction_style}):{price}만원(평당{per_price}만원)\n'
 
     return text
