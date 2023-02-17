@@ -21,18 +21,18 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title='API Docs',
-        default_version='v1',
+        title="API Docs",
+        default_version="v1",
     )
 )
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),
-    path('', include('rec.urls')),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('account/', include('allauth.urls')),
-    path('admin/', admin.site.urls),
-    path('accounts/profile/', RedirectView.as_view(url='/', permanent=True)),
-    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api_docs')
+    path("rest-auth/", include("rest_framework.urls")),
+    path("", include("rec.urls")),
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("account/", include("allauth.urls")),
+    path("admin/", admin.site.urls),
+    path("accounts/profile/", RedirectView.as_view(url="/", permanent=True)),
+    path("docs/", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs"),
 ]

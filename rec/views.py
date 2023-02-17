@@ -34,7 +34,7 @@ class PriceInfoDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class TodayApartmentsList(generics.ListAPIView):
-    today = datetime.today().strftime('%Y-%m-%d')
+    today = datetime.today().strftime("%Y-%m-%d")
     queryset = PriceInfo.objects.filter(date=today)
     serializer_class = PriceInfoSerializer
 
@@ -46,9 +46,14 @@ class SearchApartmentsList(APIView):
 
         crawling_list = Cron.crawling_rec_api(apartments_serializer.data, "전세")
         for info in crawling_list:
-            apart_id = Apartments.objects.get(pk=info['apart'])
-            price_info = PriceInfo(apart=apart_id, transaction_style=info['transaction_style'], price=info['price'], per_price=info['per_price'])
+            apart_id = Apartments.objects.get(pk=info["apart"])
+            price_info = PriceInfo(
+                apart=apart_id,
+                transaction_style=info["transaction_style"],
+                price=info["price"],
+                per_price=info["per_price"],
+            )
             price_info.save()
 
-        response = redirect('/apart/')
+        response = redirect("/apart/")
         return response

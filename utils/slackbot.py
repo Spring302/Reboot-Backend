@@ -22,7 +22,7 @@ class SlackAPI:
             self.client = WebClient(SLACK_TOKEN)
         except SlackApiError as e:
             # You will get a SlackApiError if "ok" is False
-            assert e.response["error"]    # str like 'invalid_auth', 'channel_not_found'
+            assert e.response["error"]  # str like 'invalid_auth', 'channel_not_found'
 
     def get_channel_id(self, channel_name):
         """
@@ -31,7 +31,7 @@ class SlackAPI:
         # conversations_list() 메서드 호출
         result = self.client.conversations_list()
         # 채널 정보 딕셔너리 리스트
-        channels = result.data['channels']
+        channels = result.data["channels"]
         # 채널 명이 'test'인 채널 딕셔너리 쿼리
         channel = list(filter(lambda c: c["name"] == channel_name, channels))[0]
         # 채널ID 파싱
@@ -45,7 +45,7 @@ class SlackAPI:
         # conversations_history() 메서드 호출
         result = self.client.conversations_history(channel=channel_id)
         # 채널 내 메세지 정보 딕셔너리 리스트
-        messages = result.data['messages']
+        messages = result.data["messages"]
         # 채널 내 메세지가 query와 일치하는 메세지 딕셔너리 쿼리
         message = list(filter(lambda m: m["text"] == query, messages))[0]
         # 해당 메세지ts 파싱
@@ -58,9 +58,7 @@ class SlackAPI:
         """
         # chat_postMessage() 메서드 호출
         result = self.client.chat_postMessage(
-            channel=channel_id,
-            text=text,
-            thread_ts=message_ts
+            channel=channel_id, text=text, thread_ts=message_ts
         )
         return result
 

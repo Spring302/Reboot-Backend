@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rec', '0002_apartlist_priceinfo_delete_rec'),
+        ("rec", "0002_apartlist_priceinfo_delete_rec"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='priceinfo',
-            name='price',
-            field=models.DecimalField(blank=True, decimal_places=0, default=0, max_digits=10, null=True),
+            model_name="priceinfo",
+            name="price",
+            field=models.DecimalField(
+                blank=True, decimal_places=0, default=0, max_digits=10, null=True
+            ),
         ),
     ]

@@ -13,9 +13,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # reading .env file
-environ.Env.read_env(
-    env_file=os.path.join(BASE_DIR, './env/.env')
-)
+environ.Env.read_env(env_file=os.path.join(BASE_DIR, "./env/.env"))
 
 REST_API_KEY = env("KAKAO_REATAPI_KEY")
 # REDIRECT_URI = env("REDIRECT_URI")
@@ -31,7 +29,7 @@ def init_token():
         "grant_type": "authorization_code",
         "client_id": REST_API_KEY,
         "redirect_uri": REDIRECT_URI,
-        "code": CODE
+        "code": CODE,
     }
 
     response = requests.post(url, data=data)
@@ -45,7 +43,7 @@ def refresh_token():
     data = {
         "grant_type": "refresh_token",
         "client_id": REST_API_KEY,
-        "refresh_token": REFRESH_TOKEN
+        "refresh_token": REFRESH_TOKEN,
     }
     response = requests.post(url, data=data)
     tokens = response.json()

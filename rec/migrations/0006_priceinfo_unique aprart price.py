@@ -6,12 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('rec', '0005_alter_priceinfo_options_priceinfo_per_price_and_more'),
+        ("rec", "0005_alter_priceinfo_options_priceinfo_per_price_and_more"),
     ]
 
     operations = [
         migrations.AddConstraint(
-            model_name='priceinfo',
-            constraint=models.UniqueConstraint(fields=('apart', 'date'), name='unique aprart price'),
+            model_name="priceinfo",
+            constraint=models.UniqueConstraint(
+                fields=("apart", "date"), name="unique aprart price"
+            ),
         ),
     ]

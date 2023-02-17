@@ -7,13 +7,13 @@ class ApartmentsPriceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Apartments
-        fields = ['id', 'name', 'price_info']
+        fields = ["id", "name", "price_info"]
 
 
 class ApartmentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Apartments
-        fields = ['id', 'name']
+        fields = ["id", "name"]
 
 
 class PriceInfoSerializer(serializers.ModelSerializer):
@@ -21,4 +21,4 @@ class PriceInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PriceInfo
-        fields = ['id', 'apart', 'transaction_style', 'date', 'price', 'per_price']
+        fields = ["id", "apart", "transaction_style", "date", "price", "per_price"]
