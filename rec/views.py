@@ -2,6 +2,7 @@ from urllib import request
 from rec.utils.cron import Cron
 from rec.models import *
 from rec.serializers import *
+
 from rest_framework import generics
 
 from rest_framework.views import APIView
@@ -43,17 +44,7 @@ class SearchApartmentsList(APIView):
     def get(self, request, format=None):
         apartments = Apartments.objects.all()
         apartments_serializer = ApartmentsSerializer(apartments, many=True)
-
-        crawling_list = Cron.crawling_rec_api(apartments_serializer.data, "전세")
-        for info in crawling_list:
-            apart_id = Apartments.objects.get(pk=info["apart"])
-            price_info = PriceInfo(
-                apart=apart_id,
-                transaction_style=info["transaction_style"],
-                price=info["price"],
-                per_price=info["per_price"],
-            )
-            price_info.save()
-
+        # Cron.save_price_info(apartments_serializer)
+        
         response = redirect("/apart/")
         return response

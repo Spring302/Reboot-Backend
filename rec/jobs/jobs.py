@@ -26,6 +26,7 @@ def schedule_api():
         apartments = cursor.fetchall()
         info_list = Cron.crawling_rec_tuple(apartments)  # list of dict_data
         for info in info_list:
+            print(info)
             cursor.execute(
                 """
             INSERT INTO rec_priceinfo (apart_id, date, price, per_price)
@@ -42,7 +43,9 @@ def schedule_api():
                     info["per_price"],
                 ),
             )
+            print("1")
             connection.commit()
+            print("schedule_api 완료")
 
 
 def schedule_api2():
@@ -58,8 +61,9 @@ def schedule_api2():
         )
         apartments = cursor.fetchall()
         apart_list = print_apart_list(apartments)
-        kakaobot = Kakaobot()
-        kakaobot.send_message(apart_list)
+        print(apart_list)
+        # kakaobot = Kakaobot()
+        # kakaobot.send_message(apart_list)
         # slack = SlackAPI()
         # slack.send_message(apart_list)
 

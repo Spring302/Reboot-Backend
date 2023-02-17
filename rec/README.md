@@ -201,6 +201,8 @@ https://docs.djangoproject.com/en/4.1/topics/db/sql/#executing-custom-sql-direct
 - windows에서 django scheduler 구현방법에 대해 다시 알아보았다.
 - 이 경우에는 스케쥴러 따로, 백엔드 따로 동작이 필요한것같다.
 
+### 방법 1 : scheduler 모듈 사용
+
   ```python
   # pip install schedule
   import schedule
@@ -231,6 +233,22 @@ https://docs.djangoproject.com/en/4.1/topics/db/sql/#executing-custom-sql-direct
   ```
 
 - 참고 : https://ybworld.tistory.com/74
+
+### 방법 2 : django-cron 사용
+
+- Django ORM 사용이 안되서 바꿨다.
+
+```python
+from django_cron import CronJobBase, Schedule
+
+class SeleniumTask(CronJobBase):
+    RUN_EVERY_MINS = 60  # Run every hour
+    schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+    code = 'my_app.my_cron_job'    # a unique code
+
+    def do(self):
+        print('my_task')
+```
 
 ## Django Swagger
 

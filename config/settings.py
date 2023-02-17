@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     "corsheaders",
     # app
     "rec",
+    # 
+    "django_cron",
 ]
 
 MIDDLEWARE = [
@@ -188,3 +190,9 @@ SWAGGER_SETTINGS = {
     "LOGIN_URL": "rest_framework:login",
     "LOGOUT_URL": "rest_framework:logout",
 }
+
+CRON_CLASSES = [
+    # ...
+    # 'rec.cron.SeleniumTask',
+    'rec.cron.MessageTask',
+]
