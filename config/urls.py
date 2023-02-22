@@ -18,6 +18,7 @@ from django.urls import path, include, re_path
 from django.views.generic import RedirectView, TemplateView
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from accounts.views import *
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -35,4 +36,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/profile/", RedirectView.as_view(url="/", permanent=True)),
     path("docs/", schema_view.with_ui("swagger", cache_timeout=0), name="api_docs"),
+    path('dj-rest-auth/google/', GoogleLogin.as_view(), name='google_login')
 ]

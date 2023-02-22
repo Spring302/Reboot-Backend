@@ -1,8 +1,9 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Apartments(models.Model):
     name = models.CharField(max_length=50, blank=False, unique=True)
+    users = models.ManyToManyField(User, related_name = 'apartments')
 
     def __str__(self):
         return self.name
@@ -19,9 +20,6 @@ class PriceInfo(models.Model):
     date = models.DateField(auto_now_add=True, blank=False)
     transaction_style = models.CharField(max_length=10, blank=False, default="매매")
     price = models.DecimalField(
-        max_digits=10, decimal_places=0, null=True, blank=True, default=0
-    )
-    per_price = models.DecimalField(
         max_digits=10, decimal_places=0, null=True, blank=True, default=0
     )
 

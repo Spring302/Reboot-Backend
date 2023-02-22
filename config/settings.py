@@ -25,21 +25,25 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    ## auth
+    # auth
     "rest_framework",
     "rest_framework.authtoken",
     "dj_rest_auth",
+    'django.contrib.sites',
     "allauth",
     "allauth.account",
     "dj_rest_auth.registration",
     "allauth.socialaccount",
-    "allauth.socialaccount.providers.facebook",
-    "drf_yasg",
-    "corsheaders",
+    'allauth.socialaccount.providers.google',
+    # for socialLoginView
+    'accounts',
     # app
     "rec",
     # cron
     "django_cron",
+    # etc   
+    "drf_yasg",
+    "corsheaders",
 
 ]
 
