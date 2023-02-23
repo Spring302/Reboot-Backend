@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Apartments(models.Model):
-    name = models.CharField(max_length=50, blank=False, unique=True)
+    name = models.CharField(max_length=50, blank=False)
     users = models.ManyToManyField(User, related_name = 'apartments')
 
     def __str__(self):
