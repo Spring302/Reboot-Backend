@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'accounts',
     # app
     "rec",
+    "playandmove",
     # cron
     "django_cron",
     # etc   

@@ -30,6 +30,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("rest-auth/", include("rest_framework.urls")),
     path("", include("rec.urls")),
+    path("play/", include("playandmove.urls")),
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
     path("account/", include("allauth.urls")),
